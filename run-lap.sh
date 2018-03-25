@@ -12,17 +12,17 @@ exportBoolean LOG_STDOUT
 exportBoolean LOG_STDERR
 
 if [ $LOG_STDERR ]; then
-    /usr/bin/ln -sf /dev/stderr /var/log/httpd/error_log
+    /bin/ln -sf /dev/stderr /var/log/httpd/error_log
 else
 	LOG_STDERR='No.'
 fi
 
 if [ $ALLOW_OVERRIDE == 'All' ]; then
-    /usr/bin/sed -i 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
+    /bin/sed -i 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 fi
 
 if [ $LOG_LEVEL != 'warn' ]; then
-    /usr/bin/sed -i "s/LogLevel\ warn/LogLevel\ ${LOG_LEVEL}/g" /etc/httpd/conf/httpd.conf
+    /bin/sed -i "s/LogLevel\ warn/LogLevel\ ${LOG_LEVEL}/g" /etc/httpd/conf/httpd.conf
 fi
 
 # stdout server info:
@@ -39,11 +39,11 @@ cat << EOB
 
 EOB
 else
-    /usr/bin/ln -sf /dev/stdout /var/log/httpd/access_log
+    /bin/ln -sf /dev/stdout /var/log/httpd/access_log
 fi
 
 # Set PHP timezone
-#/usr/bin/sed -i "s/\;date\.timezone\ \=/date\.timezone\ \=\ ${DATE_TIMEZONE}/" /etc/php.ini
+/bin/sed -i "s/\;date\.timezone\ \=/date\.timezone\ \=\ ${DATE_TIMEZONE}/" /etc/php.ini
 
 # Run Apache:
 2>/dev/null /usr/sbin/apachectl -k stop
